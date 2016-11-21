@@ -1,0 +1,77 @@
+#sxa-toolbox>ul#sxa-toolbox-root-ul.sc-ext-search-box-enabled>li {
+    >span {
+        display: none;
+    }
+    >ul {
+        display: block;
+        >li {
+            display: none;
+        }
+        >li.sc-ext-sb-hit {
+            display: block !important;
+            position: absolute;
+            width: 100%;
+            border: 1px solid gray !important;
+        }
+        @for $i from 0 through 5 {
+            >li.sc-ext-sb-hit.result-#{$i} {
+                top: 64px + 28* $i
+            }
+        }
+    }
+}
+
+#sxa-toolbox.touch-version>ul#sxa-toolbox-root-ul.sc-ext-search-box-enabled>li {
+    >ul {
+        @for $i from 0 through 5 {
+            >li.sc-ext-sb-hit.result-#{$i} {
+                top: 83px + 48* $i !important;
+            }
+        }
+    }
+}
+
+span.sc-ext-search-box-container {
+    position: relative;
+    span.sc-ext-search-box-clearer {
+        position: absolute;
+        display: block;
+        top: -4px;
+        right: 3px;
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+        border-top: 6px solid white;
+        border-bottom: 6px solid white;
+        border-right: 6px solid white;
+        background: url(chrome-extension://bejoiihibgldagckonjlaegcdpnggohj/sc_ext/images/ic_close_black_24dp_1x-b.png) 17px 17px;
+    }
+}
+
+input#sc-ext-toolbox-sb {
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    padding-bottom: 5px !important;
+    padding-left: 10px !important;
+    padding-top: 5px !important;
+    font-size: inherit !important;
+    border: 1px solid #474747 !important;
+    -moz-box-sizing: initial;
+    -webkit-box-sizing: initial;
+    box-sizing: initial;
+    -moz-border-image: initial;
+    -webkit-border-image: initial;
+    border-image: initial;
+    border-image-slice: initial;
+    border-width: initial;
+    border-style: initial;
+    color: initial;
+    outline: initial;
+    height: initial;
+    padding: initial;
+    margin: initial;
+}
+
+#sxa-toolbox.touch-version {
+    width: 0px !important;
+}

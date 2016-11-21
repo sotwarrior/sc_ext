@@ -44,6 +44,7 @@
 /// <reference path='modules/treelistField/_all.ts'/>
 /// <reference path='modules/treeScope/_all.ts'/>
 /// <reference path='modules/treeAutoExpand/_all.ts'/>
+/// <reference path='modules/toolboxSearch/_all.ts'/>
 
 
 // Status
