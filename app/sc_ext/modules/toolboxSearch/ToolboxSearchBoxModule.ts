@@ -3,10 +3,9 @@
 namespace SitecoreExtensions.Modules.ToolboxSearchBox {
     declare var $xa: any;
 
-    export class ToolboxSearchBoxModule extends ModuleBase implements ISitecoreExtensionsModule {
+    export class ToolboxSearchBoxModule {
 
-        constructor(name: string, description: string, rawOptions: Options.ModuleOptionsBase) {
-            super(name, description, rawOptions);
+        constructor(name: string, description: string, rawOptions: any) {
         }
 
         canExecute(): boolean {
@@ -65,7 +64,7 @@ namespace SitecoreExtensions.Modules.ToolboxSearchBox {
             for (i = 0; i < this.renderings.length; i++) {
                 var cmd = this.renderings[i];
                 var f = this.fuzzy.getScore(cmd.name, query);
-                results[i] = <ToolboxSearchResult> {
+                results[i] = <ToolboxSearchResult>{
                     rendering: cmd,
                     score: f.score,
                     term: f.term,
@@ -73,7 +72,7 @@ namespace SitecoreExtensions.Modules.ToolboxSearchBox {
                 };
             }
             results.sort(this.fuzzy.matchComparator);
-            return results.slice(0, 5); // todo extract to options
+            return results.slice(0, 15);
         }
 
         private injectSerachBox() {

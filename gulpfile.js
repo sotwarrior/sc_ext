@@ -14,6 +14,7 @@ var htmlmin = require('gulp-htmlmin')
 var zip = require('gulp-zip')
 var size = require('gulp-size')
 var jsonEditor = require('gulp-json-editor')
+var replace = require('gulp-string-replace');
 
 var mode = "build"
 
@@ -53,12 +54,15 @@ function typescript(src, dest, concatFile) {
         }))
         .pipe(tslint.report({ emitError: false }))
         .pipe(sourcemaps.init())
-        .pipe(ts({ sortOutput: true }));
+        .pipe(ts({ outFile: concatFile }));
 
     concatFile = (concatFile || '|');
     return tsResult.js
         .pipe(_if(concatFile != '|', concat(concatFile)))
         .pipe(sourcemaps.write('.'))
+        .pipe(replace('__extends', '__extends_sc_ext', { logs: { enabled: false } }))
+        .pipe(replace('__generator', '__generator_sc_ext', { logs: { enabled: false } }))
+        .pipe(replace('__awaiter', '__awaiter_sc_ext', { logs: { enabled: false } }))
         .pipe(gulp.dest(dest))
         .on('error', function (error) {
             console.log("An error has occurred");
@@ -91,11 +95,11 @@ gulp.task('typescript_chrome', () => {
 });
 
 gulp.task('typescript_options', () => {
-    return typescript(['app/options/**/*.ts',"!app/options/typings/**/*.ts"], 'app/options', 'app.js');
+    return typescript(['app/options/**/*.ts', "!app/options/typings/**/*.ts"], 'app/options', 'app.js');
 });
 
 gulp.task('typescript_common', () => {
-    return typescript(['app/options/providers/OptionsProvider.ts','app/options/models/LinkItem.ts'], 'app/common', 'optionsProvider.js')
+    return typescript(['app/options/providers/OptionsProvider.ts', 'app/options/models/LinkItem.ts', 'app/common/_all.ts'], 'app/common', 'optionsProvider.js')
 });
 
 gulp.task('typescript_all', ['cleanup_dev'], (callback) => {
@@ -139,7 +143,7 @@ gulp.task('watch', ['set_mode', 'typescript_all', 'sass_all'], () => {
     gulp.watch('app/sc_ext/styles/**/*.scss', ['sass_sc_ext']);
     gulp.watch('app/chrome/popup/**/*.scss', ['sass_popup']);
     gulp.watch('app/chrome/**/*.ts', ['typescript_chrome']);
-    gulp.watch('app/options/**/*.ts', ['typescript_options', 'typescript_common']);
+    gulp.watch(['app/options/**/*.ts', 'app/common/**/*.ts'], ['typescript_options', 'typescript_common', 'typescript_sc_ext']);
 });
 
 gulp.task('extras', () => {
@@ -176,7 +180,7 @@ function publish(src, dest) {
         .pipe(_if('*.css', cleanCss({
             compatibility: '*'
         })))
-        .pipe(_if('*.js', uglify()))
+        .pipe(_if('*.js', uglify({ mangle: false })))
         .pipe(_if('*.html', htmlmin({
             removeComments: true,
             collapseWhitespace: true
