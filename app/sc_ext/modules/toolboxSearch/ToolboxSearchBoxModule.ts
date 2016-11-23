@@ -17,10 +17,7 @@ namespace SitecoreExtensions.Modules.ToolboxSearchBox {
         }
 
         initialize(): void {
-            HTMLHelpers.postponeAction(_ => { return document.getElementById('sxa-toolbox-root-ul') != null; },
-                _ => {
-                    this.postponedInit();
-                }, 1000, 10);
+            HTMLHelpers.addProxy($xa.toolbox, 'init', () => { this.postponedInit(); });
         }
 
         private postponedInit() {
