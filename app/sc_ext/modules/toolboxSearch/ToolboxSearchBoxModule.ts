@@ -35,7 +35,7 @@ namespace SitecoreExtensions.Modules.ToolboxSearchBox {
 
         private bindRenderings() {
             var sections = new Array<ToolboxSection>();
-            [].forEach.call(this.toolboxRenderingsList.childNodes, (li) => {
+            [].forEach.call(this.toolboxRenderingsList.firstElementChild.firstElementChild.querySelectorAll("div>div"), (li) => {
                 let sec = new ToolboxSection(li);
                 sections.push(sec);
             });
@@ -72,7 +72,7 @@ namespace SitecoreExtensions.Modules.ToolboxSearchBox {
                 };
             }
             results.sort(this.fuzzy.matchComparator);
-            return results.slice(0, 15);
+            return results.slice(0, 38);
         }
 
         private injectSerachBox() {
